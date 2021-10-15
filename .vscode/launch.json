@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "pwa-chrome",
+            "request": "launch",
+            "name": "Launch Chrome",
+            "url": "https://gist.githubusercontent.com/Elcaten/025870264aa4ed2d1ae1f0cb21491475/raw/0492ec4a0024274654a8c851fee6592ace65e060/gistfile1.txt",
+            "runtimeArgs": ["--load-extension=${workspaceFolder}/extension"]
+        }
+    ]
+}
