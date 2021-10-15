@@ -420,6 +420,24 @@
               validJsonText = strippedText ;
             }
             catch (e) {
+              // Might be SSE events
+              try {
+                var sseText = text
+                  .split('\n')
+                  .filter(x => x.startsWith('data:'))
+                  .map((x, idx) => x.replace(/data:(.*)$/, `"data${idx}":$1`))
+                  .join(',')
+                sseText = `{${sseText}}`
+
+                obj = JSON.parse(sseText) ;
+                validJsonText = sseText ;
+
+                port.postMessage(['FORMATTING' /*, JSON.stringify(localStorage)*/]) ;
+                var html = jsonObjToHTML(obj, null) ;
+                port.postMessage(['FORMATTED', html, validJsonText]) ;
+                port.disconnect() ;
+                return
+              } catch (e) { }
 
               // Not JSON; could be JSONP though.
               // Try stripping 'padding' (if any), and try parsing it again
